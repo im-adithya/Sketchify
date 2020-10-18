@@ -2,12 +2,18 @@ import React, { useState, useEffect } from "react";
 import Editor from "./Editor";
 import useLocalStorage from "../hooks/useLocalStorage";
 import Split from 'react-split';
+import io from 'socket.io-client';
 
 function App() {
   const [html, setHtml] = useLocalStorage("html", "");
   const [css, setCss] = useLocalStorage("css", "");
   const [js, setJs] = useLocalStorage("js", "");
   const [srcDoc, setSrcDoc] = useState("");
+  const [socket, setSocket] = useState();
+  useEffect(() => {
+    const newSocket = io('http://localhost:8000')
+    setSocket(newSocket);
+  }, [])
 
   useEffect(() => {
     const timeout = setTimeout(() => {
